@@ -1,0 +1,25 @@
+apply plugin: 'groovy'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.tools.build:gradle:4.0.1'
+    implementation gradleApi()
+
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+apply plugin: 'maven-publish'
+
+publishing{ //会帮忙我们把插件代码上传到本地仓库 路径: 用户目录\.m2\repository
+    publications{
+        Jiagu(MavenPublication){
+            from components.java //把插件源码生产的jar上传
+            groupId 'com.hippius.jiagu'
+            artifactId 'gradle'
+            version '1.0.0'    //groupId artifactId version 三者决定了gradle 的依赖路径 需要被添加到 gradle的依赖中 通过classpath 引入
+        }
+    }
+}
